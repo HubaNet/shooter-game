@@ -85,16 +85,14 @@ function drawBullets() {
             score++;
             document.getElementById('demo').innerText = 'Score: ' + score;
         }
-        
     });
 }
 
 document.addEventListener('keydown', function(event) {
     if (event.key === ' ') {
         bullets.push({ x: playerX, y: playerY });
-    } 
+    }
 });
-
 
 
 let bouncingSquareX = 0;
@@ -107,9 +105,31 @@ function drawBouncingSquare() {
     if (bouncingSquareX <= 0 || bouncingSquareX >= (cols - 1) * cellSize) {
         bouncingSquareDirection *= -1;
     }
-
-    
 }
+
+let enemyBullets = [];
+
+
+function drawEnemyBullets() {
+    ctx.fillStyle = 'green';
+    enemyBullets.forEach((bullet, index) => {
+        ctx.fillRect(bullet.x, bullet.y, cellSize, cellSize);
+        bullet.y += cellSize * 0.1;
+        if (bullet.y > canvas.height) {
+            enemyBullets.splice(index, 1);
+        }
+        if (bullet.x - 5 < playerX &&bullet.x +5 > playerX && bullet.y + cellSize >= playerY && bullet.y <= playerY + cellSize) {
+            window.location.href = 'gameover.html';
+
+        
+            
+        }
+    });
+}
+
+setInterval(() => {
+    enemyBullets.push({ x: bouncingSquareX, y: cellSize });
+}, 1000);
 
 
 function update() {
@@ -119,17 +139,9 @@ function update() {
     drawGrid();
     drawPlayer();
     drawBullets();
-    
-    drawBouncingSquare()
-
-if(score == 30){
-        
-        window.location.href = "level2.html";
-    }
-
+    drawBouncingSquare();
+    drawEnemyBullets();
     requestAnimationFrame(update);
-
-    
 }
 
 update();
