@@ -85,6 +85,10 @@ function drawBullets() {
             score++;
             document.getElementById('demo').innerText = 'Score: ' + score;
         }
+        if(score == 10){
+        
+            window.location.href = "level2.html";
+        }
         
     });
 }
